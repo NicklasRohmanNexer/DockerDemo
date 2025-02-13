@@ -59,7 +59,7 @@ services:
       dockerfile: dockerfile
     restart: unless-stopped
     ports:
-      - "8003:5171"
+      - "8003:4200"
 
 volumes:
   docker-certs-ca:
