@@ -16,4 +16,22 @@ services:
       MYSQL_DATABASE: wordpress
       MYSQL_ROOT_PASSWORD: "coffee"
     volumes:
-      - ./mysql:/var/lib/mysql
+      - ./App/wordpress/mysql:/var/lib/mysql
+      #- ./mysql:/var/lib/mysql
+
+  dind:
+    image: docker:dind
+    privileged: true
+    environment:
+      - DOCKER_TLS_CERTDIR=/certs
+    volumes:
+      - docker-certs-ca:/certs/ca
+      - docker-certs-client:/certs/client
+      - docker-data:/var/lib/docker
+    ports:
+      - "2375:2375"
+
+volumes:
+  docker-certs-ca:
+  docker-certs-client:
+  docker-data:
