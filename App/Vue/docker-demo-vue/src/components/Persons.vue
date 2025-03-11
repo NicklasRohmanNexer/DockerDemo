@@ -30,7 +30,6 @@ export default defineComponent({
         const response = await axios.get(
           "http://localhost:23223/Person/getAllPersons"
         );
-        console.log("data ", response.data);
         persons.value = response.data;
       } catch (error) {
         console.error("Error fetching persons:", error);
