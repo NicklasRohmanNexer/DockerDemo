@@ -60,8 +60,20 @@ services:
     restart: unless-stopped
     ports:
       - "8003:4200"
+  
+  sql:
+    image: mcr.microsoft.com/mysql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - MYSQL_SA_PASSWORD=root
+    ports:
+      - 11433:1433
+    volumes:
+      -dbdata:/var/opt/mssql
 
 volumes:
   docker-certs-ca:
   docker-certs-client:
   docker-data:
+  dbdata:
+    name: sql-data
