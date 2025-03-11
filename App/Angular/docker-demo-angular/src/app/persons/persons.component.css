@@ -1,0 +1,9 @@
+ul {
+  background-color: antiquewhite;
+}
+li {
+  background-color: aqua;
+}
+li:hover {
+  background-color: burlywood;
+}
