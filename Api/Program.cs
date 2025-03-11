@@ -50,4 +50,5 @@ app.Run();
 static void AddServices(IServiceCollection services)
 {
     services.AddScoped<IPersonService, PersonService>();
+    services.AddScoped<IDbConnection, DbConnection>();
 }

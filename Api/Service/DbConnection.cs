@@ -1,8 +1,9 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using DockerDemo.Service.Interface;
+using Microsoft.Data.SqlClient;
 
 namespace DockerDemo.Service
 {
-    public class DbConnection(IConfiguration configuration)
+    public class DbConnection(IConfiguration configuration) : IDbConnection
     {
         private readonly string _conString = configuration.GetConnectionString("DbConnection") ?? throw new InvalidOperationException("Connection string not found.");
         private readonly string _localDbConString = configuration.GetConnectionString("LocalDbConnection") ?? throw new InvalidOperationException("LocalDbConnection string not found.");
@@ -14,16 +15,18 @@ namespace DockerDemo.Service
 
         public SqlConnection GetLocalDbConnection()
         {
-            return new SqlConnection(_localDbConString);
+            string connectionString = "Server=(localdb)\\MSSQLLocalDB;Database=Localdockerdemo;User Id=sa;Password=SuperSecret1!";
+            return new SqlConnection(connectionString);
         }
 
-        public string TestLocalDbConnection()
+        public async Task<string> TestLocalDbConnectionAsync()
         {
+            string connectionString = "Server=(localdb)\\MSSQLLocalDB;Database=Localdockerdemo;User Id=sa;Password=SuperSecret1!";
             try
             {
-                using (var connection = new SqlConnection(_localDbConString))
+                await using (var connection = new SqlConnection(connectionString))
                 {
-                    connection.Open();
+                    await connection.OpenAsync();
                     return "Connection to LocalDb successful!";
                 }
             }
