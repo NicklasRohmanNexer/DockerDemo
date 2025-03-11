@@ -1,0 +1,18 @@
+FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS base
+
+FROM base AS init
+ARG BUILD_CONFIGURATION=Debug
+WORKDIR /
+COPY ["/DockerDemo.csproj", "DockerDemo.csproj"]
+RUN dotnet restore "DockerDemo.csproj"
+
+COPY . /api
+WORKDIR /api
+
+FROM init AS final
+ARG BUILD_CONFIGURATION=Debug
+WORKDIR "/api"
+ENV ASPNETCORE_ENVIRONMENT=Development
+ENV ASPNETCORE_URLS=http://+:23223
+EXPOSE 23223
+ENTRYPOINT ["dotnet", "watch", "--no-launch-profile"]

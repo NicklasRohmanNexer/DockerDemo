@@ -78,6 +78,19 @@ services:
       - dbsecrets:/var/opt/mssql/secrets
     restart: unless-stopped
 
+  api:
+    build:
+      context: /api
+      dockerfile: dockerfile
+    environment:
+      - ConnectionStrings__DbConnection=Data Source=sql;User ID=sa;Password=SuperSecret1!;Initial Catalog=dockerdemo;TrustServerCertificate=true
+      - ASPNETCORE_HTTP_PORTS=23223
+      - ASPNETCORE_URLS=http://+:23223/
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "23223:23223"
+    restart: unless-stopped
+
 volumes:
   docker-certs-ca:
   docker-certs-client:
