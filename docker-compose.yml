@@ -66,6 +66,7 @@ services:
     environment:
       - ACCEPT_EULA=Y
       - MYSQL_SA_PASSWORD=root
+    restart: unless-stopped
     ports:
       - 11433:1433
     volumes:
