@@ -10,6 +10,7 @@ services:
       WORDPRESS_DB_USER: root
       WORDPRESS_DB_PASSWORD: "coffee"
       WORDPRESS_DB_NAME: wordpress
+    restart: unless-stopped
 
   mysql:
     image: "mysql:5.7"
@@ -18,6 +19,7 @@ services:
       MYSQL_ROOT_PASSWORD: "coffee"
     volumes:
       - ./App/wordpress/mysql:/var/lib/mysql
+    restart: unless-stopped
 
   dind:
     image: docker:dind
@@ -30,51 +32,56 @@ services:
       - docker-data:/var/lib/docker
     ports:
       - "2375:2375"
-  
+    restart: unless-stopped
+
   doom-app:
     image: callumhoughton22/doom-in-docker:0.1
-    restart: always
     ports: 
         - 8080:8080
+    restart: unless-stopped
 
   vue-app:
     build: 
       context: app/vue/docker-demo-vue
       dockerfile: dockerfile
-    restart: unless-stopped
     ports:
       - "8001:5173"
+    restart: unless-stopped
   
   react-app:
     build: 
       context: app/react/docker-demo-react
       dockerfile: dockerfile
-    restart: unless-stopped
     ports:
       - "8002:5172"
+    restart: unless-stopped
 
   angular-app:
     build: 
       context: app/angular/docker-demo-angular
       dockerfile: dockerfile
-    restart: unless-stopped
     ports:
       - "8003:4200"
+    restart: unless-stopped
   
   sql:
-    image: mcr.microsoft.com/mysql/server:2022-latest
+    user: root
+    image: mcr.microsoft.com/mssql/server:2019-latest
     environment:
       - ACCEPT_EULA=Y
-      - MYSQL_SA_PASSWORD=root
-    restart: unless-stopped
+      - SA_PASSWORD=SuperSecret1!
     ports:
       - 11433:1433
     volumes:
-      -dbdata:/var/opt/mssql
+      - dbdata:/var/opt/mssql/data
+      - dblog:/var/opt/mssql/log
+      - dbsecrets:/var/opt/mssql/secrets
+    restart: unless-stopped
 
 volumes:
   docker-certs-ca:
   docker-certs-client:
   docker-data:
   dbdata:
-    name: sql-data
+  dblog:
+  dbsecrets:
