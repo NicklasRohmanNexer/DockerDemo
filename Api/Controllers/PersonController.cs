@@ -14,8 +14,21 @@ namespace DockerDemo.Controllers
         {
             try
             {
-                var result = await personService.GetAllPersons(cancellationToken);
+                var result = new List<PersonDto>();
+                /*
+                var dockerdbPersons = await personService.GetAllPersons(cancellationToken);
 
+                foreach (var person in dockerdbPersons)
+                {
+                    result.Add(person);
+                }
+                */
+                var localPersons = await personService.GetAllLocalPersons(cancellationToken);
+                foreach (var localPerson in localPersons)
+                {
+                    result.Add(localPerson);
+                }
+                
                 return Ok(result);
             }
             catch (Exception ex)

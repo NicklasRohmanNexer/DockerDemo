@@ -9,7 +9,6 @@ namespace DockerDemo.Service
 
         public async Task<List<PersonDto>> GetAllPersons(CancellationToken cancellationToken = default)
         {
-
             var persons = new List<PersonDto>();
 
             SqlConnection connection = dbConnection.GetConnection();
@@ -30,6 +29,35 @@ namespace DockerDemo.Service
                             };
                             persons.Add(person);
                         }
+
+            await reader.CloseAsync();
+            await connection.CloseAsync();
+
+            return persons;
+        }
+
+        public async Task<List<PersonDto>> GetAllLocalPersons(CancellationToken cancellationToken = default)
+        {
+            var persons = new List<PersonDto>();
+
+            SqlConnection connection = dbConnection.GetLocalDbConnection();
+            await connection.OpenAsync(cancellationToken);
+
+            string query = "SELECT [ID], [FirstName], [LastName], [Age] FROM [Localdockerdemo].[dbo].[LocalPerson]";
+            SqlCommand command = new(query, connection);
+            SqlDataReader reader = await command.ExecuteReaderAsync(cancellationToken);
+
+            while (await reader.ReadAsync(cancellationToken))
+            {
+                var person = new PersonDto
+                {
+                    Id = reader.GetInt32(0),
+                    FirstName = reader.GetString(1),
+                    LastName = reader.GetString(2),
+                    Age = reader.GetInt32(3)
+                };
+                persons.Add(person);
+            }
 
             await reader.CloseAsync();
             await connection.CloseAsync();
