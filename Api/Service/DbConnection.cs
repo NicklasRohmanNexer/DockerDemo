@@ -16,5 +16,21 @@ namespace DockerDemo.Service
         {
             return new SqlConnection(_localDbConString);
         }
+
+        public string TestLocalDbConnection()
+        {
+            try
+            {
+                using (var connection = new SqlConnection(_localDbConString))
+                {
+                    connection.Open();
+                    return "Connection to LocalDb successful!";
+                }
+            }
+            catch (Exception ex)
+            {
+                return $"Error connecting to LocalDb: {ex.Message}";
+            }
+        }
     }
 }
