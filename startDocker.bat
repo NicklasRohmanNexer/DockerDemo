@@ -1,1 +1,1 @@
-docker-compose -p docker_demo up
+docker-compose -p docker_demo build && docker compose -p docker_demo watch
