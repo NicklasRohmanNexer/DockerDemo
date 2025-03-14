@@ -1,6 +1,6 @@
 export interface PersonDto {
-  id: number;
-  firstName: string;
-  lastName: string;
+  personID: number;
+  name: string;
+  city: string;
   age: number;
 }

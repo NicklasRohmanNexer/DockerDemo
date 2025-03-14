@@ -5,7 +5,5 @@ namespace DockerDemo.Service.Interface
     public interface IPersonService
     {
         Task<List<PersonDto>> GetAllPersons(CancellationToken cancellationToken = default);
-
-        Task<List<PersonDto>> GetAllLocalPersons(CancellationToken cancellationToken = default);
     }
 }

@@ -7,7 +7,7 @@ namespace DockerDemo.Controllers
     [ApiController]
     [Produces("application/json")]
     [Route("[controller]")]
-    public class PersonController (IPersonService personService): ControllerBase
+    public class PersonController(IPersonService personService) : ControllerBase
     {
         [HttpGet("getAllPersons", Name = "GetAllPersons")]
         public async Task<ActionResult<List<PersonDto>>> GetAllPersons(CancellationToken cancellationToken)
@@ -15,20 +15,15 @@ namespace DockerDemo.Controllers
             try
             {
                 var result = new List<PersonDto>();
-                /*
+
                 var dockerdbPersons = await personService.GetAllPersons(cancellationToken);
 
                 foreach (var person in dockerdbPersons)
                 {
                     result.Add(person);
                 }
-                */
-                var localPersons = await personService.GetAllLocalPersons(cancellationToken);
-                foreach (var localPerson in localPersons)
-                {
-                    result.Add(localPerson);
-                }
-                
+
+
                 return Ok(result);
             }
             catch (Exception ex)

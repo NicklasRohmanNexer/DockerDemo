@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 interface PersonDto {
-  id: number;
-  firstName: string;
-  lastName: string;
+  personID: number;
+  name: string;
+  city: string;
   age: number;
 }
 
@@ -31,8 +31,8 @@ const Persons: React.FC = () => {
       <h1>Personer</h1>
       <ul>
         {persons.map((person) => (
-          <li key={person.id}>
-            {person.firstName} {person.lastName} - Age: {person.age}
+          <li key={person.personID}>
+            {person.name} {person.city} - Age: {person.age}
           </li>
         ))}
       </ul>

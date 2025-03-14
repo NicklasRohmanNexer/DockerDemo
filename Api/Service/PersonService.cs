@@ -14,36 +14,7 @@ namespace DockerDemo.Service
             SqlConnection connection = dbConnection.GetConnection();
             await connection.OpenAsync(cancellationToken);
 
-            string query = "SELECT [ID], [FirstName], [LastName], [Age] FROM [dockerdemo].[dbo].[Person]";
-            SqlCommand command = new(query, connection);
-            SqlDataReader reader = await command.ExecuteReaderAsync(cancellationToken);
-                    
-                        while (await reader.ReadAsync(cancellationToken))
-                        {
-                            var person = new PersonDto
-                            {
-                                Id = reader.GetInt32(0),
-                                FirstName = reader.GetString(1),
-                                LastName = reader.GetString(2),
-                                Age = reader.GetInt32(3)
-                            };
-                            persons.Add(person);
-                        }
-
-            await reader.CloseAsync();
-            await connection.CloseAsync();
-
-            return persons;
-        }
-
-        public async Task<List<PersonDto>> GetAllLocalPersons(CancellationToken cancellationToken = default)
-        {
-            var persons = new List<PersonDto>();
-
-            SqlConnection connection = dbConnection.GetLocalDbConnection();
-            await connection.OpenAsync(cancellationToken);
-
-            string query = "SELECT [ID], [FirstName], [LastName], [Age] FROM [Localdockerdemo].[dbo].[LocalPerson]";
+            string query = "SELECT [PersonID],[Name],[Age],[City] FROM [dockerdemo].[dbo].[Person]";
             SqlCommand command = new(query, connection);
             SqlDataReader reader = await command.ExecuteReaderAsync(cancellationToken);
 
@@ -51,10 +22,11 @@ namespace DockerDemo.Service
             {
                 var person = new PersonDto
                 {
-                    Id = reader.GetInt32(0),
-                    FirstName = reader.GetString(1),
-                    LastName = reader.GetString(2),
-                    Age = reader.GetInt32(3)
+                    PersonID = reader.GetInt32(0),
+                    Name = reader.GetString(1),
+                    Age = reader.GetInt32(2),
+                    City = reader.GetString(3),
+
                 };
                 persons.Add(person);
             }
