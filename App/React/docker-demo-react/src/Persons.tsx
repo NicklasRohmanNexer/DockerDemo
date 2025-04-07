@@ -3,8 +3,8 @@ import axios from "axios";
 
 interface PersonDto {
   personID: number;
-  name: string;
-  city: string;
+  firstName: string;
+  lastName: string;
   age: number;
 }
 
@@ -32,7 +32,7 @@ const Persons: React.FC = () => {
       <ul>
         {persons.map((person) => (
           <li key={person.personID}>
-            {person.name} {person.city} - Age: {person.age}
+            {person.firstName} {person.lastName} - Age: {person.age}
           </li>
         ))}
       </ul>

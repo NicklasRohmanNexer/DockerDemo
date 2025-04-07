@@ -2,8 +2,8 @@
   <div>
     <h1>Personer</h1>
     <ul>
-      <li v-for="person in persons" :key="person.personID">
-        {{ person.name }} {{ person.city }} - Age: {{ person.age }}
+      <li v-for="person in persons" :key="person.id">
+        {{ person.firstName }} {{ person.lastName }} - Age: {{ person.age }}
       </li>
     </ul>
   </div>
@@ -14,9 +14,9 @@ import { defineComponent, ref, onMounted } from "vue";
 import axios from "axios";
 
 interface PersonDto {
-  personID: number;
-  name: string;
-  city: string;
+  id: number;
+  firstName: string;
+  lastName: string;
   age: number;
 }
 
